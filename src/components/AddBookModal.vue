@@ -1,7 +1,8 @@
 <template>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <!-- Modal Bootstrap -->
+  <div class="modal fade show" v-if="isOpen" style="display: block; background: rgba(0, 0, 0, 0.5)">
+    <div class="modal-dialog">
+      <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Add new book</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -58,47 +59,65 @@
         <button type="submit" class="btn btn-success">Add Book</button>
       </div>
     </div>
+    </div>
   </div>
-</div>
 </template>
-  
+
 <script setup lang="ts">
-  import { ref } from "vue";
-  import axios from "axios";
-  import type BookModel from "@/models/BookModel";
-  
-  // Define los campos del formulario
-  const newBook = ref<BookModel>({
-    id: "",
-    title: "",
-    author: "",
-    genre: "",
-    price: 0,
-    disponibility: true,
-    publishers: "",
-  });
-  
-  // Método para añadir un libro
-  const addBook = async (): Promise<void> => {
-    try {
-      const response = await axios.post("http://localhost:3000/books", newBook.value);
-      // Reinicia el formulario
-      newBook.value = {
-        id: "",
-        title: "",
-        author: "",
-        genre: "",
-        price: 0,
-        disponibility: true,
-        publishers: "",
-      };
-      console.log(`Book "${newBook.value.title}" added successfully.`);
-      const created = window.alert("Book created correctly!");
-    } catch (error) {
-      console.error("Cannot create the book correctly!", error);
-    }
-  };
+import { ref, defineEmits, defineProps } from "vue";
+import axios from "axios";
+import type { BookModel } from "@/models/BookModel";
+
+// Props
+const props = defineProps<{ isOpen: boolean }>();
+
+// Emits
+const emit = defineEmits(["close", "bookAdded"]);
+
+// Modelo del libro
+const newBook = ref<BookModel>({
+  id: "",
+  title: "",
+  author: "",
+  genre: "",
+  price: 0,
+  disponibility: true,
+  publishers: "",
+});
+
+// Agregar libro
+const addBook = async () => {
+  try {
+    await axios.post("http://localhost:3000/books", newBook.value);
+    emit("bookAdded", newBook.value);
+
+    // Resetear formulario
+    newBook.value = {
+      id: "",
+      title: "",
+      author: "",
+      genre: "",
+      price: 0,
+      disponibility: true,
+      publishers: "",
+    };
+
+    alert("Book created successfully!");
+    closeModal();
+  } catch (error) {
+    console.error("Error adding book:", error);
+  }
+};
+
+// Cerrar modal
+const closeModal = () => {
+  emit("close");
+};
 </script>
-  
-  <style>
-  </style>
+
+<style scoped>
+/* Ajuste para que el fondo del modal no desaparezca */
+.modal.fade.show {
+  display: block !important;
+}
+</style>

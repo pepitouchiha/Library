@@ -23,7 +23,9 @@ const handleBookAdded = (newBook: any) => {
               <RouterLink class="nav-link text-light" to="/">Books</RouterLink>
             </li>
             <li class="nav-item bg-success rounded">
-              <button class="nav-link text-light bg-transparent border-0" @click="showModal = true">Add Book</button>
+              <button class="nav-link text-light bg-transparent border-0" @click="showModal = true">
+                Add Book
+              </button>
             </li>
           </ul>
         </div>
@@ -32,9 +34,8 @@ const handleBookAdded = (newBook: any) => {
   </header>
   <main class="container py-4">
     <RouterView />
-    <AddBookModal v-if="showModal" @close="showModal = false" @bookAdded="handleBookAdded" />
+    <AddBookModal v-if="showModal" :isOpen="showModal" @close="showModal = false" @bookAdded="handleBookAdded" />
   </main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
