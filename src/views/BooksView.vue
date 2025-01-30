@@ -54,15 +54,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import axios from "axios";
-import type BookModel from "@/models/BookModel"; // Importa la interfaz
+import type BookModelResponse from "@/models/BookModelResponse"; // Importa la interfaz
 
 // Define una referencia reactiva para almacenar los libros
-const books = ref<BookModel[]>([]);
+const books = ref<BookModelResponse[]>([]);
 
 // Función para obtener los libros desde el endpoint
 const listBooks = async (): Promise<void> => {
     try {
-        const response = await axios.get<BookModel[]>("http://localhost:3000/books");
+        const response = await axios.get<BookModelResponse[]>("http://localhost:3000/books");
         books.value = response.data; // Asigna los datos al estado reactivo
         console.log("Datos recibidos:", books.value);
     } catch (error) {

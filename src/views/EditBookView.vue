@@ -63,7 +63,6 @@ import type BookModel from "@/models/BookModel";
   
   // Referencia reactiva para almacenar los datos del libro a editar
   const updateBook = ref<BookModel>({
-    id: "",
     title: "",
     author: "",
     genre: "",

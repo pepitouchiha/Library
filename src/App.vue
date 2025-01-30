@@ -1,13 +1,3 @@
-<script setup lang="ts">
-import { ref } from "vue";
-import AddBookModal from "./components/AddBookModal.vue";
-const showModal = ref(false);
-
-const handleBookAdded = (newBook: any) => {
-  console.log("New book added:", newBook);
-};
-</script>
-
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,5 +27,15 @@ const handleBookAdded = (newBook: any) => {
     <AddBookModal v-if="showModal" :isOpen="showModal" @close="showModal = false" @bookAdded="handleBookAdded" />
   </main>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import AddBookModal from "./components/AddBookModal.vue";
+const showModal = ref(false);
+
+const handleBookAdded = (newBook: any) => {
+  console.log("New book added:", newBook);
+};
+</script>
 
 <style scoped></style>

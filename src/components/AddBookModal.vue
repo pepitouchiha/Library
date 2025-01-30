@@ -5,7 +5,7 @@
       <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Add new book</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" @click="closeModal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div>
@@ -26,7 +26,7 @@
             <div class="col">
               <div data-mdb-input-init class="form-outline">
                 <label class="form-label">Publishers</label>
-                <input type="text" class="form-control" v-model="newBook.publishers" required />
+                <input type="date" class="form-control" v-model="newBook.publishers" required />
               </div>
             </div>
           </div>
@@ -55,8 +55,8 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Add Book</button>
+        <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
+        <button type="submit" class="btn btn-success" @click="addBook">Add Book</button>
       </div>
     </div>
     </div>
@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { ref, defineEmits, defineProps } from "vue";
 import axios from "axios";
-import type { BookModel } from "@/models/BookModel";
+import type BookModel from "@/models/BookModel";
 
 // Props
 const props = defineProps<{ isOpen: boolean }>();
@@ -76,7 +76,6 @@ const emit = defineEmits(["close", "bookAdded"]);
 
 // Modelo del libro
 const newBook = ref<BookModel>({
-  id: "",
   title: "",
   author: "",
   genre: "",
@@ -93,7 +92,6 @@ const addBook = async () => {
 
     // Resetear formulario
     newBook.value = {
-      id: "",
       title: "",
       author: "",
       genre: "",
@@ -101,9 +99,9 @@ const addBook = async () => {
       disponibility: true,
       publishers: "",
     };
-
     alert("Book created successfully!");
     closeModal();
+    
   } catch (error) {
     console.error("Error adding book:", error);
   }

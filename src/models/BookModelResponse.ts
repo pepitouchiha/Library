@@ -1,4 +1,5 @@
-export default interface BookModel {
+export default interface BookModelReponse {
+    id: string;
     title: string;
     author: string;
     genre: string;

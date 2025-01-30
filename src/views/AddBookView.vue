@@ -61,7 +61,6 @@ import type BookModel from "@/models/BookModel";
 
 // Define los campos del formulario
 const newBook = ref<BookModel>({
-  id: "",
   title: "",
   author: "",
   genre: "",
@@ -76,7 +75,6 @@ const addBook = async (): Promise<void> => {
     const response = await axios.post("http://localhost:3000/books", newBook.value);
     // Reinicia el formulario
     newBook.value = {
-      id: "",
       title: "",
       author: "",
       genre: "",
